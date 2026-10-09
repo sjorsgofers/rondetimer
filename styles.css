@@ -234,17 +234,98 @@ h1 {
   #setup { --brand-w: 120px; }
 }
 
-@media (max-width: 700px) {
-  #setup { --brand-w: 0px; padding-left: var(--pad-l); }
+/* Telefoon, staand: de drie instellingen onder elkaar als compacte rijen */
+@media (max-width: 700px) and (orientation: portrait) {
+  #setup { --brand-w: 0px; padding-left: var(--pad-l); gap: 12px; }
   #setup::before { display: none; }
-  .cards { grid-template-columns: 1fr; }
-  .start-row { flex-direction: column; align-items: stretch; }
-  #startBtn { flex: none; }
+  #fsBtn { display: none; }
+
+  h1 { display: flex; align-items: center; gap: 12px; font-size: 32px; }
+  h1::before {
+    content: "";
+    width: 21px;
+    height: 56px;
+    background-color: currentColor;
+    -webkit-mask: url(logo.png) center / contain no-repeat;
+    mask: url(logo.png) center / contain no-repeat;
+  }
+  .ghost { height: 48px; padding: 0 18px; font-size: 17px; }
+
+  .cards {
+    flex: 1 0 auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 12px;
+    min-height: 0;
+  }
+  .card {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr) 76px;
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: "label label label" "minus value plus";
+    align-items: center;
+    gap: 6px 10px;
+    padding: 12px 14px 14px;
+    border-radius: 20px;
+  }
+  .label { grid-area: label; text-align: center; font-size: 17px; }
+  .card output { grid-area: value; text-align: center; font-size: 60px; }
+  .btns { display: contents; }
+  .btns .step:first-child { grid-area: minus; }
+  .btns .step:last-child { grid-area: plus; }
+  .step { height: min(100%, 88px); min-height: 60px; font-size: 40px; border-radius: 16px; }
+
+  .opt-label { font-size: 17px; }
+  .start-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .total { min-width: 0; display: flex; justify-content: space-between; align-items: baseline; font-size: 18px; }
+  .total b { display: inline; font-size: 30px; }
+  #startBtn { flex: none; height: 84px; font-size: 44px; border-radius: 22px; }
+}
+
+/* Telefoon, liggend: alles compacter zodat het zonder scrollen past */
+@media (max-height: 500px) and (orientation: landscape) {
+  #setup {
+    --brand-w: 84px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "top top" "cards cards" "options start";
+    gap: 10px 20px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    padding-left: calc(var(--pad-l) + var(--brand-w) + 18px);
+  }
+  #setup::before { top: 10px; bottom: 10px; }
+  #fsBtn { display: none; }
+
+  .top { grid-area: top; }
+  h1 { font-size: 26px; }
+  .ghost { height: 40px; padding: 0 16px; border-radius: 12px; font-size: 16px; }
+
+  .cards { grid-area: cards; gap: 12px; min-height: 0; }
+  .card { padding: 10px 12px 12px; border-radius: 18px; gap: 4px; }
+  .label { font-size: 15px; }
+  .card output { font-size: clamp(44px, 16vh, 64px); }
+  .btns { gap: 8px; }
+  .step { height: 48px; font-size: 34px; border-radius: 14px; }
+
+  .options { grid-area: options; align-self: center; }
+  .opt-label { font-size: 16px; }
+  .start-row { grid-area: start; gap: 16px; }
+  .total { min-width: 0; font-size: 15px; }
+  .total b { font-size: 28px; }
+  #startBtn { height: 60px; font-size: 34px; border-radius: 18px; }
 }
 
 /* ---------- Timer ---------- */
 
 #timer {
+  --edge: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: "round brand" "stage stage" "bar bar" "foot foot";
+  padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
   background: var(--phase-bg);
   color: var(--phase-fg);
   transition: background-color .25s;
@@ -268,24 +349,19 @@ h1 {
 
 #timer > * { position: relative; }
 
-.t-head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0 28px;
-  padding:
-    max(12px, env(safe-area-inset-top))
-    max(28px, env(safe-area-inset-right))
-    0
-    max(28px, env(safe-area-inset-left));
-  font: 800 clamp(34px, 8.5vh, 88px)/1.05 var(--cond);
+.t-label {
+  padding-top: max(12px, env(safe-area-inset-top));
+  font: 800 clamp(20px, min(8.5vh, 6.4vw), 88px)/1.05 var(--cond);
   letter-spacing: .03em;
   white-space: nowrap;
 }
 
+#roundLabel { grid-area: round; padding-left: var(--edge); overflow: hidden; text-overflow: ellipsis; }
+#brandLabel { grid-area: brand; padding-left: 16px; padding-right: var(--edge); }
+
 #stage {
-  flex: 1;
+  grid-area: stage;
+  min-width: 0;
   min-height: 0;
   display: flex;
   align-items: center;
@@ -323,6 +399,7 @@ h1 {
 }
 
 #bar {
+  grid-area: bar;
   height: 12px;
   background: rgba(0, 0, 0, .28);
 }
@@ -336,13 +413,10 @@ h1 {
 }
 
 .t-foot {
+  grid-area: foot;
   display: flex;
   gap: 16px;
-  padding:
-    14px
-    max(20px, env(safe-area-inset-right))
-    max(14px, env(safe-area-inset-bottom))
-    max(20px, env(safe-area-inset-left));
+  padding: 14px 20px max(14px, env(safe-area-inset-bottom));
 }
 
 .t-foot button {
@@ -359,3 +433,25 @@ h1 {
 
 #timer[data-phase="done"] .t-foot button { background: var(--btn); }
 #timer[data-phase="done"] #againBtn { background: var(--go); }
+
+@media (max-width: 700px) {
+  #timer { --edge: 16px; }
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .t-label { font-size: clamp(18px, 5.4vw, 88px); }
+}
+
+/* Telefoon, liggend: knoppen naar de bovenrand, zodat de klok de hele hoogte krijgt */
+@media (max-height: 500px) and (orientation: landscape) {
+  #timer {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "round foot brand" "stage stage stage" "bar bar bar";
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .t-label { padding-top: 8px; align-self: center; }
+  .t-foot { justify-content: center; gap: 10px; padding: 8px 14px 0; }
+  .t-foot button { flex: 0 1 150px; height: 40px; border-radius: 12px; font-size: 20px; }
+  #bar { height: 6px; }
+}
