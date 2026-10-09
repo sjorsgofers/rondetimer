@@ -7,13 +7,6 @@ const DEFAULTS = { rounds: 12, work: 180, rest: 60, warn: true };
 const LIMITS = { rounds: [1, 99], work: [5, 3600], rest: [0, 900] };
 // Vast aftellen voor de eerste ronde, in seconden.
 const PREP = 10;
-const PRESETS = [
-  { name: 'Boksen', rounds: 12, work: 180, rest: 60 },
-  { name: 'Kickboksen', rounds: 5, work: 180, rest: 60 },
-  { name: 'Karate', rounds: 6, work: 120, rest: 30 },
-  { name: 'MMA', rounds: 3, work: 300, rest: 60 },
-  { name: 'Tabata', rounds: 8, work: 20, rest: 10 },
-];
 // Hoe ver de cijfers verticaal uitgerekt mogen worden om het scherm te vullen.
 const MAX_STRETCH = 1.8;
 
@@ -66,26 +59,6 @@ function renderSetup() {
   const hours = Math.floor(total / 3600);
   const text = hours ? `${hours}:${fmt(total % 3600).padStart(5, '0')}` : fmt(total);
   $('total').innerHTML = `Totale duur<b>${text}</b>`;
-  document.querySelectorAll('.preset').forEach((btn, i) => {
-    const p = PRESETS[i];
-    btn.classList.toggle('active', p.rounds === cfg.rounds && p.work === cfg.work && p.rest === cfg.rest);
-  });
-}
-
-function buildPresets() {
-  const box = $('presets');
-  PRESETS.forEach((p) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'preset';
-    btn.innerHTML = `<b>${p.name}</b><span>${p.rounds} × ${fmt(p.work)} · pauze ${fmt(p.rest)}</span>`;
-    btn.addEventListener('click', () => {
-      Object.assign(cfg, { rounds: p.rounds, work: p.work, rest: p.rest });
-      saveConfig();
-      renderSetup();
-    });
-    box.appendChild(btn);
-  });
 }
 
 // Ingedrukt houden herhaalt de stap.
@@ -450,7 +423,6 @@ function bindFullscreen() {
   });
 }
 
-buildPresets();
 bindSteppers();
 bindFullscreen();
 renderSetup();
