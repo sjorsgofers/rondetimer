@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Rondetimer</title>
+  <meta name="description" content="Intervaltimer voor rondes: boksen, karate en andere vechtsporten.">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Rondetimer">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="icon" type="image/png" href="icon-180.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <main id="setup" class="screen">
+    <header class="top">
+      <h1>Rondetimer</h1>
+      <div class="top-btns">
+        <button id="testBtn" class="ghost" type="button">Test bel</button>
+        <button id="fsBtn" class="ghost" type="button" hidden>Volledig scherm</button>
+      </div>
+    </header>
+
+    <section class="cards">
+      <div class="card">
+        <div class="label">Rondes</div>
+        <output id="v-rounds">12</output>
+        <div class="btns">
+          <button class="step" type="button" data-field="rounds" data-dir="-1" aria-label="Minder rondes">&minus;</button>
+          <button class="step" type="button" data-field="rounds" data-dir="1" aria-label="Meer rondes">+</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="label">Rondetijd</div>
+        <output id="v-work">3:00</output>
+        <div class="btns">
+          <button class="step" type="button" data-field="work" data-dir="-1" aria-label="Kortere ronde">&minus;</button>
+          <button class="step" type="button" data-field="work" data-dir="1" aria-label="Langere ronde">+</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="label">Pauze</div>
+        <output id="v-rest">1:00</output>
+        <div class="btns">
+          <button class="step" type="button" data-field="rest" data-dir="-1" aria-label="Kortere pauze">&minus;</button>
+          <button class="step" type="button" data-field="rest" data-dir="1" aria-label="Langere pauze">+</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="presets" class="presets" aria-label="Voorinstellingen"></section>
+
+    <section class="options">
+      <label class="opt switch">
+        <input id="warn" type="checkbox">
+        <span class="track"></span>
+        <span class="opt-label">Signaal 10 sec voor einde ronde</span>
+      </label>
+    </section>
+
+    <footer class="start-row">
+      <div id="total" class="total"></div>
+      <button id="startBtn" type="button">START</button>
+    </footer>
+  </main>
+
+  <main id="timer" class="screen" data-phase="prep" hidden>
+    <header class="t-head">
+      <div id="roundLabel">RONDE 1 / 12</div>
+      <div>YIN YANG</div>
+    </header>
+    <div id="stage">
+      <div id="clock" class="clockfont" aria-live="off"></div>
+      <div id="doneText" class="clockfont" hidden>KLAAR</div>
+    </div>
+    <div id="bar"><i id="barFill"></i></div>
+    <footer class="t-foot">
+      <button id="pauseBtn" type="button">PAUZE</button>
+      <button id="resumeBtn" type="button" hidden>HERVAT</button>
+      <button id="againBtn" type="button" hidden>OPNIEUW</button>
+      <button id="stopBtn" type="button" hidden>STOP</button>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
