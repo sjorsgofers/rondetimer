@@ -1,4 +1,4 @@
-# Rondetimer
+# Karate – rondetimer
 
 Intervaltimer voor rondes (boksen, kickboksen, karate, MMA …), gemaakt voor een iPad van 10 inch.
 

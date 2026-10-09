@@ -84,7 +84,6 @@ h1 {
   margin: 0;
   font: 800 38px/1 var(--cond);
   letter-spacing: .05em;
-  text-transform: uppercase;
 }
 
 .top-btns {

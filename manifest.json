@@ -1,6 +1,6 @@
 {
-  "name": "Rondetimer",
-  "short_name": "Rondetimer",
+  "name": "Karate",
+  "short_name": "Karate",
   "description": "Intervaltimer voor rondes: boksen, karate en andere vechtsporten.",
   "lang": "nl",
   "start_url": "./",
